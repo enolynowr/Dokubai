@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by LG Electronics on 2017/08/20.
  */
-
+//photo 안의 객체들
 public class PhotozouResponseInfoPhoto {
 
     @SerializedName("photo_id")
@@ -49,7 +49,11 @@ public class PhotozouResponseInfoPhoto {
     @SerializedName("medium_tag")
     private String  medium_tag;
 
-    public String getPhoto_id() {
+    public String getImage_url() {
+        return image_url;
+    }
+
+    /*public String getPhoto_id() {
         return photo_id;
     }
 
@@ -169,9 +173,7 @@ public class PhotozouResponseInfoPhoto {
         this.url = url;
     }
 
-    public String getImage_url() {
-        return image_url;
-    }
+
 
     public void setImage_url(String image_url) {
         this.image_url = image_url;
@@ -208,4 +210,5 @@ public class PhotozouResponseInfoPhoto {
     public void setMedium_tag(String medium_tag) {
         this.medium_tag = medium_tag;
     }
+*/
 }

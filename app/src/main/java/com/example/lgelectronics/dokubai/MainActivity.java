@@ -1,6 +1,10 @@
 package com.example.lgelectronics.dokubai;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.v4.net.ConnectivityManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,9 +27,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private final String LOG_TAG = "@@@@@_MainActivity_TAG";
-
     public static ProgressDialog mProgressDialog;
-
     EditText et_keyword;
     Button btn_search;
     GridView gv;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("Photo Viewer");
 
         et_keyword = (EditText) findViewById(R.id.edittext_keyword);
         btn_search = (Button) findViewById(R.id.btn_search);
@@ -51,20 +54,29 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Please enter keyword", Toast.LENGTH_LONG).show();
                     return;
                 }
-
                 setThumbnailImages(input_keyword);
             }
         });
     }
 
     public void setThumbnailImages(String keyword) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        NetworkInfo wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-        mProgressDialog.show();
+        //@@@@@ Network Check
+        if (mobile.isConnected() || wifi.isConnected()) {
+            mProgressDialog.show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Please check your network", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         //api통신
         ApiServiceImpl apiServiceImpl = new ApiServiceImpl();
         ApiService apiService = apiServiceImpl.getApiService();
         Call<PhotozouResponse> call = apiService.getPhotozou(keyword);
+
         call.enqueue(new Callback<PhotozouResponse>() {
             /**
              * Invoked for a received HTTP response.
@@ -87,14 +99,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(LOG_TAG, "API Response Success");
                 PhotozouResponse res = response.body();
                 PhotozouResponseInfo photos = res.getInfo();
-
                 ConvertBitmapAsync cba = new ConvertBitmapAsync(MainActivity.this);
                 cba.execute(photos.getPhoto());
-
                 //TextView textView = (TextView) findViewById(R.id.api_test);
                 //textView.setText(resInfo.getPhoto().get(0).getImage_url());
             }
-
             /**
              * Invoked when a network exception occurred talking to the server or when an unexpected
              * exception occurred creating the request or processing the response.
@@ -108,7 +117,5 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "API Request Fail", Toast.LENGTH_LONG).show();
             }
         });
-
     }
-
 }

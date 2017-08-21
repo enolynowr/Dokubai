@@ -13,20 +13,20 @@ public class ApiServiceImpl {
 
     public ApiService getApiService (){
 
-        //@@@@@ http 로그설정
+        //@@@@@ http setting log
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         HttpLoggingInterceptor intereptor = new HttpLoggingInterceptor();
         intereptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         httpClient.addInterceptor(intereptor);
-
         OkHttpClient client = httpClient.build();
 
-        //http 통신
+        //http 통신(Retrofit2)
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiConfig.PHOTOZOU_API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
+
         return retrofit.create(ApiService.class);
     }
 

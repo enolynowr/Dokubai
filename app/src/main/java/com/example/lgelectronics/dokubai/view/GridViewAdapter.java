@@ -11,18 +11,17 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.example.lgelectronics.dokubai.R;
-
 /**
  * Created by LG Electronics on 2017/08/20.
  */
-
+//Custom Adapter
 public class GridViewAdapter extends BaseAdapter {
 
     Context context;
-    int layout;
-    //int img[];
     Bitmap img[];
     LayoutInflater inf;
+    int layout;
+    //int img[];
 
     public GridViewAdapter(Context context, int layout, Bitmap[] img) {
         this.context = context;
@@ -31,17 +30,14 @@ public class GridViewAdapter extends BaseAdapter {
         inf = (LayoutInflater) context.getSystemService
                 (Context.LAYOUT_INFLATER_SERVICE);
     }
-
     @Override
     public int getCount() {
         return img.length;
     }
-
     @Override
     public Object getItem(int position) {
         return img[position];
     }
-
     @Override
     public long getItemId(int position) {
         return position;
@@ -59,7 +55,6 @@ public class GridViewAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(context, ImageActivity.class);
                 intent.putExtra("imageBitmap", img[position]);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -68,5 +63,4 @@ public class GridViewAdapter extends BaseAdapter {
         });
         return convertView;
     }
-
 }

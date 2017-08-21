@@ -19,17 +19,12 @@ import java.util.List;
 /**
  * Created by LG Electronics on 2017/08/20.
  */
-
+// 사진 url을 비트맵으로 변환
 public class ConvertBitmapAsync extends AsyncTask<List<PhotozouResponseInfoPhoto>,Void,Bitmap[]> {
-
-    private final String LOG_TAG = "@@@@@_ConvertBitmap_TAG";
-
-    Activity activity;
+    //private final String LOG_TAG = "@@@@@_ConvertBitmap_TAG";
+    Activity activity;//Main Activity
     GridView gv;
-
-    public ConvertBitmapAsync() {
-    }
-
+    //Constructor
     public ConvertBitmapAsync(Activity _activity) {
         this.activity = _activity;
         gv = (GridView) activity.findViewById(R.id.gridview_photo);
@@ -45,10 +40,8 @@ public class ConvertBitmapAsync extends AsyncTask<List<PhotozouResponseInfoPhoto
     protected Bitmap[] doInBackground(List<PhotozouResponseInfoPhoto>... params) {
 
         List<PhotozouResponseInfoPhoto> list_prip = params[0];
-
         final int length = list_prip.size();
         final Bitmap[] bitmap = new Bitmap[length];
-
         HttpURLConnection connection = null;
 
         try{
@@ -58,12 +51,10 @@ public class ConvertBitmapAsync extends AsyncTask<List<PhotozouResponseInfoPhoto
                 connection.setDoInput(true); //url로 input받는 flag 허용
                 connection.connect(); //연결
                 InputStream is = connection.getInputStream(); // get inputstream
-
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 2;
                 bitmap[i] = BitmapFactory.decodeStream(is, null, options);
             }
-
         }catch(Exception e) {
             e.printStackTrace();
         }finally {
@@ -71,7 +62,6 @@ public class ConvertBitmapAsync extends AsyncTask<List<PhotozouResponseInfoPhoto
                 connection.disconnect();
             }
         }
-
         return bitmap;
     }
 
@@ -80,15 +70,13 @@ public class ConvertBitmapAsync extends AsyncTask<List<PhotozouResponseInfoPhoto
         super.onPostExecute(resImgBitmap);
 
         GridViewAdapter adapter = new GridViewAdapter(
-                activity.getApplicationContext()
+                activity.getApplicationContext()//Main Activity
                 , R.layout.row
                 , resImgBitmap);
-
         gv.setAdapter(adapter);
 
         if(MainActivity.mProgressDialog.isShowing()){
             MainActivity.mProgressDialog.dismiss();
         }
     }
-
 }

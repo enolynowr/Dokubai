@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class PhotozouResponse {
-
+    //json최상위 객체
     @SerializedName("info")
     private PhotozouResponseInfo info;
 
@@ -15,8 +15,8 @@ public class PhotozouResponse {
         return info;
     }
 
-    public void setInfo(PhotozouResponseInfo info) {
+    /*public void setInfo(PhotozouResponseInfo info) {
         this.info = info;
     }
-
+*/
 }
