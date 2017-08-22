@@ -20,7 +20,7 @@ public class ApiServiceImpl {
         httpClient.addInterceptor(intereptor);
         OkHttpClient client = httpClient.build();
 
-        //http 통신(Retrofit2)
+        //http 通信(Retrofit2)
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiConfig.PHOTOZOU_API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
