@@ -17,5 +17,5 @@ public interface ApiService {
 
     @Headers({"Accept: application/json"})
     @GET("rest/search_public.json")
-    Call<PhotozouResponse> getPhotozou(@Query("keyword") String keyword);
+    Call<PhotozouResponse> getPhotozou(@Query("keyword") String keyword,@Query("limit") String limit );
 }

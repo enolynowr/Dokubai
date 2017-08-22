@@ -50,16 +50,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String input_keyword = et_keyword.getText().toString();
+                String limit_photo = "20";//photo limit
                 if (input_keyword.length() == 0) {
                     Toast.makeText(getApplicationContext(), "Please enter keyword", Toast.LENGTH_LONG).show();
                     return;
                 }
-                setThumbnailImages(input_keyword);
+                setThumbnailImages(input_keyword, limit_photo);
             }
         });
     }
 
-    public void setThumbnailImages(String keyword) {
+    public void setThumbnailImages(String keyword, String limit) {
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         //api통신
         ApiServiceImpl apiServiceImpl = new ApiServiceImpl();
         ApiService apiService = apiServiceImpl.getApiService();
-        Call<PhotozouResponse> call = apiService.getPhotozou(keyword);
+        Call<PhotozouResponse> call = apiService.getPhotozou(keyword,limit);
 
         call.enqueue(new Callback<PhotozouResponse>() {
             /**
